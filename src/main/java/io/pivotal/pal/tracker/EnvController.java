@@ -14,14 +14,15 @@ public class EnvController {
     private final String instanceAddr;
 
 
-    public EnvController(@Value("port:NOT SET")String port,
-                         @Value("memory.limit:NOT SET") String memoryLimit,
-                         @Value("cf.instance.index:NOT SET") String instanceIndex,
-                         @Value("cf.instance.addr:NOT SET") String instanceAddr) {
+    public EnvController(
+            @Value("${port:NOT SET}") String port,
+            @Value("${memory.limit:NOT SET}") String memoryLimit,
+            @Value("${cf.instance.index:NOT SET}") String cfInstanceIndex,
+            @Value("${cf.instance.addr:NOT SET}") String cfInstanceAddress ) {
         this.port = port;
         this.memoryLimit = memoryLimit;
-        this.instanceIndex = instanceIndex;
-        this.instanceAddr = instanceAddr;
+        this.instanceIndex = cfInstanceIndex;
+        this.instanceAddr = cfInstanceAddress;
     }
 
     @GetMapping("/env")
