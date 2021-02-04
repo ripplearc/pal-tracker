@@ -28,7 +28,7 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
 
         jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(
-                "INSERT INTO time_entries (project_id, user_id, date, hours) " +
+                "INSERT INTO time_entries (project_id, user_id, data, hours) " +
                     "VALUES (?, ?, ?, ?)",
                 RETURN_GENERATED_KEYS
             );
@@ -47,20 +47,20 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
     @Override
     public TimeEntry find(long id) {
         return jdbcTemplate.query(
-                "SELECT id, project_id, user_id, date, hours FROM time_entries WHERE id = ?",
+                "SELECT id, project_id, user_id, data, hours FROM time_entries WHERE id = ?",
                 extractor,
                 id);
     }
 
     @Override
     public List<TimeEntry> list() {
-        return jdbcTemplate.query("SELECT id, project_id, user_id, date, hours FROM time_entries", mapper);
+        return jdbcTemplate.query("SELECT id, project_id, user_id, data, hours FROM time_entries", mapper);
     }
 
     @Override
     public TimeEntry update(long id, TimeEntry timeEntry) {
         jdbcTemplate.update("UPDATE time_entries " +
-                "SET project_id = ?, user_id = ?, date = ?,  hours = ? " +
+                "SET project_id = ?, user_id = ?, data = ?,  hours = ? " +
                 "WHERE id = ?",
             timeEntry.getProjectId(),
             timeEntry.getUserId(),
@@ -80,7 +80,7 @@ public class JdbcTimeEntryRepository implements TimeEntryRepository {
         rs.getLong("id"),
         rs.getLong("project_id"),
         rs.getLong("user_id"),
-        rs.getDate("date").toLocalDate(),
+        rs.getDate("data").toLocalDate(),
         rs.getInt("hours")
     );
 

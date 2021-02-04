@@ -44,7 +44,7 @@ public class JdbcTimeEntryRepositoryTest {
         assertThat(foundEntry.get("id")).isEqualTo(entry.getId());
         assertThat(foundEntry.get("project_id")).isEqualTo(123L);
         assertThat(foundEntry.get("user_id")).isEqualTo(321L);
-        assertThat(((Date)foundEntry.get("date")).toLocalDate()).isEqualTo(LocalDate.parse("2017-01-09"));
+        assertThat(((Date)foundEntry.get("data")).toLocalDate()).isEqualTo(LocalDate.parse("2017-01-09"));
         assertThat(foundEntry.get("hours")).isEqualTo(8);
     }
 
@@ -63,7 +63,7 @@ public class JdbcTimeEntryRepositoryTest {
     @Test
     public void findFindsATimeEntry() {
         jdbcTemplate.execute(
-                "INSERT INTO time_entries (id, project_id, user_id, date, hours) " +
+                "INSERT INTO time_entries (id, project_id, user_id, data, hours) " +
                         "VALUES (999, 123, 321, '2017-01-09', 8)"
         );
 
@@ -86,7 +86,7 @@ public class JdbcTimeEntryRepositoryTest {
     @Test
     public void listFindsAllTimeEntries() {
         jdbcTemplate.execute(
-                "INSERT INTO time_entries (id, project_id, user_id, date, hours) " +
+                "INSERT INTO time_entries (id, project_id, user_id, data, hours) " +
                         "VALUES (999, 123, 321, '2017-01-09', 8), (888, 456, 678, '2017-01-08', 9)"
         );
 
@@ -111,7 +111,7 @@ public class JdbcTimeEntryRepositoryTest {
     @Test
     public void updateReturnsTheUpdatedRecord() {
         jdbcTemplate.execute(
-                "INSERT INTO time_entries (id, project_id, user_id, date, hours) " +
+                "INSERT INTO time_entries (id, project_id, user_id, data, hours) " +
                         "VALUES (1000, 123, 321, '2017-01-09', 8)");
 
         TimeEntry timeEntryUpdates = new TimeEntry(0,456, 987, LocalDate.parse("2017-01-10"), 10);
@@ -128,7 +128,7 @@ public class JdbcTimeEntryRepositoryTest {
     @Test
     public void updateUpdatesTheRecord() {
         jdbcTemplate.execute(
-                "INSERT INTO time_entries (id, project_id, user_id, date, hours) " +
+                "INSERT INTO time_entries (id, project_id, user_id, data, hours) " +
                         "VALUES (1000, 123, 321, '2017-01-09', 8)");
 
         TimeEntry updatedTimeEntry = new TimeEntry(0,456, 322, LocalDate.parse("2017-01-10"), 10);
@@ -140,14 +140,14 @@ public class JdbcTimeEntryRepositoryTest {
         assertThat(foundEntry.get("id")).isEqualTo(timeEntry.getId());
         assertThat(foundEntry.get("project_id")).isEqualTo(456L);
         assertThat(foundEntry.get("user_id")).isEqualTo(322L);
-        assertThat(((Date)foundEntry.get("date")).toLocalDate()).isEqualTo(LocalDate.parse("2017-01-10"));
+        assertThat(((Date)foundEntry.get("data")).toLocalDate()).isEqualTo(LocalDate.parse("2017-01-10"));
         assertThat(foundEntry.get("hours")).isEqualTo(10);
     }
 
     @Test
     public void deleteRemovesTheRecord() {
         jdbcTemplate.execute(
-                "INSERT INTO time_entries (id, project_id, user_id, date, hours) " +
+                "INSERT INTO time_entries (id, project_id, user_id, data, hours) " +
                         "VALUES (999, 123, 321, '2017-01-09', 8), (888, 456, 678, '2017-01-08', 9)"
         );
 
